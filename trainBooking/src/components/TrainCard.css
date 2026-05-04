@@ -1,31 +1,22 @@
 .train-card {
   display: grid;
-  grid-template-columns: 100px 1fr 100px 100px 120px;
+  grid-template-columns: 100px 1fr 150px 150px 160px;
   padding: 12px 16px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #0a0807;
   transition: background 0.2s;
+  font-family: 'pixel';
+  color: #E5DD65;
+  letter-spacing: 2px;
+  background: #1F1A14;
+  text-shadow: 0 0 5px #cbb211;
 }
 
+
 .train-card:hover {
-  background: #f5f5f5;
+  background: #2e2820;
   cursor: pointer;
 }
 
 .train-card:last-child {
   border-bottom: none;
-}
-
-.train-number {
-  font-weight: 600;
-  color: #1a73e8;
-}
-
-.train-route {
-  font-weight: 500;
-}
-
-.train-date, 
-.train-time, 
-.train-duration {
-  color: #555;
 }

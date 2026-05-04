@@ -42,7 +42,7 @@ function Home() {
   return (
     <div className="home">
       <header className="header">
-        <h1 >Залізниця</h1>
+        <h1>Залізниця</h1>
       </header>
 
       <main className="main">

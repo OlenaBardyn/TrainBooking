@@ -105,3 +105,8 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+@font-face {
+  font-family: 'pixel';
+  src: url('../public/Alpha_Smart_3000.ttf') format('truetype');
+}
