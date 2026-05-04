@@ -1,20 +1,42 @@
 import { useState } from 'react'
+import { trains } from '../data/trains'
+import TrainList from '../components/TrainList'
 import './Home.css'
 
 function Home() {
   const [from, setFrom] = useState('')
   const [to, setTo] = useState('')
   const [date, setDate] = useState('')
+  const [filteredTrains, setFilteredTrains] = useState([])
 
   const swapCities = () => {
-    const swap = from
+    const temp = from
     setFrom(to)
-    setTo(swap)
+    setTo(temp)
   }
 
   const handleSearch = (e) => {
     e.preventDefault()
-    alert(`пошук маршрутів буде згодом`)
+    
+    const filtered = trains.filter(train => {
+      // Фільтр за містом "Звідки"
+      if (from && train.from !== from) return false
+      
+      // Фільтр за містом "Куди"
+      if (to && train.to !== to) return false
+      
+      // Фільтр за датою
+      if (date) {
+        // Перетворення дати з input (рррр-мм-дд) у дд.мм.рррр
+        const formattedDate = date.split('-').reverse().join('.')
+        if (train.date !== formattedDate) return false
+      }
+      
+      return true
+    })
+    
+    setFilteredTrains(filtered)
+
   }
 
   return (
@@ -61,6 +83,8 @@ function Home() {
             Знайти
           </button>
         </form>
+
+        <TrainList trains={filteredTrains} />
       </main>
     </div>
   )
