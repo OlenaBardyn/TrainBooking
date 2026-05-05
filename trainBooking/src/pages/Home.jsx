@@ -20,10 +20,10 @@ function Home() {
     
     const filtered = trains.filter(train => {
       // Фільтр за містом "Звідки"
-      if (from && train.from !== from) return false
+      if (from && train.from.toLowerCase() !== from.toLowerCase()) return false
       
       // Фільтр за містом "Куди"
-      if (to && train.to !== to) return false
+      if (to && train.to.toLowerCase() !== to.toLowerCase()) return false
       
       // Фільтр за датою
       if (date) {
