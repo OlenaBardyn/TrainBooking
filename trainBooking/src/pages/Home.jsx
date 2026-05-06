@@ -8,6 +8,7 @@ function Home() {
   const [to, setTo] = useState('')
   const [date, setDate] = useState('')
   const [filteredTrains, setFilteredTrains] = useState([])
+  const [searched, setSearched] = useState(false)
 
   const swapCities = () => {
     const temp = from
@@ -15,29 +16,27 @@ function Home() {
     setTo(temp)
   }
 
-  const handleSearch = (e) => {
-    e.preventDefault()
-    
-    const filtered = trains.filter(train => {
-      // Фільтр за містом "Звідки"
-      if (from && train.from.toLowerCase() !== from.toLowerCase()) return false
-      
-      // Фільтр за містом "Куди"
-      if (to && train.to.toLowerCase() !== to.toLowerCase()) return false
-      
-      // Фільтр за датою
-      if (date) {
-        // Перетворення дати з input (рррр-мм-дд) у дд.мм.рррр
-        const formattedDate = date.split('-').reverse().join('.')
-        if (train.date !== formattedDate) return false
-      }
-      
-      return true
-    })
-    
-    setFilteredTrains(filtered)
-
+const handleSearch = (e) => {
+  e.preventDefault()
+  
+  if (!from && !to && !date) {
+    alert("Будь ласка, заповніть хоча б одне поле для пошуку")
+    return 
   }
+  
+  const filtered = trains.filter(train => {
+    if (from && train.from.toLowerCase() !== from.toLowerCase()) return false
+    if (to && train.to.toLowerCase() !== to.toLowerCase()) return false
+    if (date) {
+      const formattedDate = date.split('-').reverse().join('.')
+      if (train.date !== formattedDate) return false
+    }
+    return true
+  })
+  
+  setFilteredTrains(filtered)
+  setSearched(true)
+}
 
   return (
     <div className="home">
@@ -84,7 +83,7 @@ function Home() {
           </button>
         </form>
 
-        <TrainList trains={filteredTrains} />
+        <TrainList trains={filteredTrains} searched={searched} />
       </main>
     </div>
   )

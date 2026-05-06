@@ -70,6 +70,14 @@
   cursor: pointer;
   font-size: 20px;
   flex-shrink: 0;
+  transition: all 0.3s ease;  
+}
+
+.swap-button:hover {
+  background: #1a73e8;       
+  color: white;              
+  transform: scale(1.05);   
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); 
 }
 
 .date-field {
@@ -79,13 +87,18 @@
 
 .date-input {
   background: #F7F6F8;
-  color: #333;
+  color: #111;
   width: 100%;
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
   box-sizing: border-box;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  filter: brightness(0); 
+  cursor: pointer;
 }
 
 .search-button {

@@ -1,9 +1,13 @@
 import TrainCard from './TrainCard'
 import './TrainList.css'
 
-function TrainList({ trains }) {
-  if (trains.length === 0) {
+function TrainList({ trains, searched }) {
+  if (searched && trains.length === 0) {
     return <div className="no-results">Рейсів не знайдено</div>
+  }
+  
+  if (trains.length === 0) {
+    return null 
   }
 
   return (
