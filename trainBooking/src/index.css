@@ -108,5 +108,5 @@ code {
 
 @font-face {
   font-family: 'pixel';
-  src: url('../public/Alpha_Smart_3000.ttf') format('truetype');
+  src: url('../public/Alpha_Smart_3000.ttf');
 }

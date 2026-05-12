@@ -1,0 +1,66 @@
+/* src/pages/Booking.css */
+.booking {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+.booking-header {
+  background: white;
+  padding: 16px 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.booking-header h1 {
+  margin: 0;
+  color: #1a73e8;
+}
+
+.booking-main {
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 0 20px;
+}
+
+.train-info {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.train-info h2 {
+  color: #1a73e8;
+  margin-bottom: 8px;
+}
+
+.train-info p {
+  margin: 4px 0;
+  color: #333;
+}
+
+.booking-container {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 24px;
+}
+
+.seats-section, .form-section {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.seats-section h3, .form-section h3 {
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.booking-error {
+  text-align: center;
+  padding: 50px;
+  font-size: 24px;
+  color: white;
+}
