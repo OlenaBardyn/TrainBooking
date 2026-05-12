@@ -1,4 +1,3 @@
-/* src/pages/Booking.css */
 .booking {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -63,4 +62,13 @@
   padding: 50px;
   font-size: 24px;
   color: white;
+}
+
+.selected-info {
+  margin-top: 16px;
+  padding: 10px;
+  background: #e8f0fe;
+  border-radius: 8px;
+  color: #1a73e8;
+  font-weight: 500;
 }
