@@ -1,75 +1,123 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { trains } from '../data/trains'
-import WagonSelector from '../components/WagonSelector'
-import SeatMap from '../components/SeatMap' 
+import { getBookedSeatsByTrain } from '../services/BookingService'
+import SeatMap from '../components/SeatMap'
+import BookingForm from '../components/BookingForm'
 import './Booking.css'
 
 function Booking() {
   const { trainId } = useParams()
   const train = trains.find(t => t.id === parseInt(trainId))
   
-  const [selectedWagon, setSelectedWagon] = useState(1)
-  const [selectedSeats, setSelectedSeats] = useState([]) 
+  const [selectedSeats, setSelectedSeats] = useState({})
+  const [bookedSeatsMap, setBookedSeatsMap] = useState({}) 
+  const wagons = [1, 2, 3, 4, 5]
+  const seatPrice = train.price
 
-  // Приклад заброньованих місць (потім будуть з API)
-  const bookedSeats = ['A5', 'A12', 'B8'] 
+  useEffect(() => {
+    if (train) {
+      const booked = getBookedSeatsByTrain(train.id)
+      setBookedSeatsMap(booked)
+    }
+  }, [train])
 
-  const handleSeatToggle = (seatId) => {
+  const handleSeatToggle = (wagon, seat) => {
+    // Перевіряємо, чи місце вже заброньоване іншими
+    const seatsInWagon = bookedSeatsMap[wagon] || []
+    let isAlreadyBooked = false
+    
+    for (let i = 0; i < seatsInWagon.length; i++) {
+      if (seatsInWagon[i] === seat) {
+        isAlreadyBooked = true
+        break
+      }
+    }
+
+    if (isAlreadyBooked) return
+
+    // Логіка вибору/скасування місця
     setSelectedSeats(prev => {
-      if (prev.includes(seatId)) {
-        return prev.filter(id => id !== seatId)
+      const current = prev[wagon] || []
+      
+      // Перевіряємо, чи ми вже вибрали це місце (щоб прибрати його)
+      let index = -1
+      for (let i = 0; i < current.length; i++) {
+        if (current[i] === seat) {
+          index = i
+          break
+        }
+      }
+
+      if (index !== -1) {
+        // Якщо місце вже в списку — видаляємо його
+        const newSeats = []
+        for (let i = 0; i < current.length; i++) {
+          if (i !== index) newSeats.push(current[i])
+        }
+        return { ...prev, [wagon]: newSeats }
       } else {
-        return [...prev, seatId]
+        // Якщо місця немає — додаємо
+        return { ...prev, [wagon]: [...current, seat] }
       }
     })
   }
 
-  if (!train) {
-    return <div className="booking-error">Потяг не знайдено</div>
+  const handleRemoveSeat = (wagon, seat) => {
+    setSelectedSeats(prev => {
+      const current = prev[wagon] || []
+      const newSeats = []
+      for (let i = 0; i < current.length; i++) {
+        if (current[i] !== seat) {
+          newSeats.push(current[i])
+        }
+      }
+      return { ...prev, [wagon]: newSeats }
+    })
   }
+
+  const handleBookingSuccess = () => {
+    // Оновлюємо дані з бази після успішного бронювання
+    const updatedBooked = getBookedSeatsByTrain(train.id)
+    setBookedSeatsMap(updatedBooked)
+    // Очищуємо вибір
+    setSelectedSeats({})
+  }
+
+  let totalSelectedCount = 0
+  for (let wagonKey in selectedSeats) {
+    const seatsArray = selectedSeats[wagonKey]
+    totalSelectedCount = totalSelectedCount + seatsArray.length
+  }
+  const totalPrice = totalSelectedCount * seatPrice
+
+
+  if (!train) return <div>Потяг не знайдено</div>
 
   return (
     <div className="booking">
-      <header className="booking-header">
-        <h1>Бронювання квитків</h1>
-      </header>
-
-      <main className="booking-main">
-        <div className="train-info">
-          <h2>Потяг №{train.number}</h2>
-          <p>{train.from} → {train.to}</p>
-          <p>{train.date} | {train.time}</p>
-        </div>
-
-        <div className="booking-container">
-          <div className="seats-section">
-            <h3>Вибір місць</h3>
-            
-            <WagonSelector 
-              selectedWagon={selectedWagon}
-              onWagonChange={setSelectedWagon}
-              totalWagons={5}
+      <div className="booking-container">
+        <div className="seats-section">
+          {wagons.map(wagon => (
+            <SeatMap
+              key={wagon}
+              wagonNumber={wagon}
+              selectedSeats={selectedSeats[wagon] || []}
+              bookedSeats={bookedSeatsMap[wagon] || []}
+              onSeatToggle={(seat) => handleSeatToggle(wagon, seat)}
             />
-            
-            {/* Додано схему місць */}
-            <SeatMap 
-              selectedSeats={selectedSeats}
-              onSeatToggle={handleSeatToggle}
-              bookedSeats={bookedSeats}
-            />
-            
-            <p className="selected-info">
-              Вибрано місць: {selectedSeats.length}
-            </p>
-          </div>
-
-          <div className="form-section">
-            <h3>Дані пасажира</h3>
-            <p>Тут буде форма бронювання</p>
-          </div>
+          ))}
         </div>
-      </main>
+        <div className="form-section">
+          <BookingForm
+            trainId={train.id}
+            selectedSeats={selectedSeats}
+            onRemoveSeat={handleRemoveSeat}
+            totalPrice={totalPrice}
+            onSuccess={handleBookingSuccess}
+          />
+        </div>
+      </div>
     </div>
   )
 }

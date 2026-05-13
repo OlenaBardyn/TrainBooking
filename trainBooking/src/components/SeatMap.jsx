@@ -1,57 +1,46 @@
 import './SeatMap.css'
 
-function SeatMap({ selectedSeats, onSeatToggle, bookedSeats = [] }) {
-  // Створюємо 2 ряди по 20 місць
-  const rows = [
-    { name: 'A', seats: Array.from({ length: 20 }, (_, i) => i + 1) },   // ряд A: місця 1-20
-    { name: 'B', seats: Array.from({ length: 20 }, (_, i) => i + 1) }    // ряд B: місця 1-20
-  ]
+function SeatMap({ wagonNumber, selectedSeats, bookedSeats = [], onSeatToggle }) {
+  const upperSeats = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32]
+  const lowerSeats = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31]
 
-  const getSeatStatus = (row, seatNumber) => {
-    const seatId = `${row}${seatNumber}`
-    if (bookedSeats.includes(seatId)) return 'booked'
-    if (selectedSeats.includes(seatId)) return 'selected'
-    return 'free'
+  const getSeatClass = (seat) => {
+    if (bookedSeats.includes(seat)) return 'seat booked'
+    if (selectedSeats.includes(seat)) return 'seat selected'
+    return 'seat'
   }
 
-  const handleSeatClick = (row, seatNumber) => {
-    const seatId = `${row}${seatNumber}`
-    const status = getSeatStatus(row, seatNumber)
-    
-    if (status === 'booked') return // заброньовані місця не можна вибрати
-    
-    onSeatToggle(seatId)
+  const handleClick = (seat) => {
+    if (bookedSeats.includes(seat)) return
+    onSeatToggle(seat)
   }
 
   return (
     <div className="seat-map">
-      <div className="seat-legend">
-        <span><span className="legend-free"></span> Вільні</span>
-        <span><span className="legend-selected"></span> Обрані</span>
-        <span><span className="legend-booked"></span> Заброньовані</span>
-      </div>
-
+      <div className="wagon-title">Вагон {wagonNumber}</div>
       <div className="seats-container">
-        {rows.map(row => (
-          <div key={row.name} className="seat-row">
-            <div className="row-label">{row.name}</div>
-            <div className="seats">
-              {row.seats.map(seatNumber => {
-                const seatId = `${row.name}${seatNumber}`
-                const status = getSeatStatus(row.name, seatNumber)
-                return (
-                  <button
-                    key={seatId}
-                    className={`seat ${status}`}
-                    onClick={() => handleSeatClick(row.name, seatNumber)}
-                  >
-                    {seatNumber}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-        ))}
+        <div className="seat-row">
+          {upperSeats.map(seat => (
+            <button
+              key={seat}
+              className={getSeatClass(seat)}
+              onClick={() => handleClick(seat)}
+            >
+              {seat}
+            </button>
+          ))}
+        </div>
+        <div className="seat-row">
+          {lowerSeats.map(seat => (
+            <button
+              key={seat}
+              className={getSeatClass(seat)}
+              onClick={() => handleClick(seat)}
+            >
+              {seat}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   )

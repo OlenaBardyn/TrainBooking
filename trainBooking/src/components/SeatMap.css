@@ -1,98 +1,48 @@
 .seat-map {
-  margin-top: 20px;
-}
-
-.seat-legend {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
+  width: 100%;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
   border-bottom: 1px solid #eee;
 }
 
-.seat-legend span {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-}
-
-.legend-free, .legend-selected, .legend-booked {
-  width: 25px;
-  height: 25px;
-  border-radius: 6px;
-}
-
-.legend-free {
-  background: #e8f0fe;
-  border: 1px solid #ccc;
-}
-
-.legend-selected {
-  background: #1a73e8;
-}
-
-.legend-booked {
-  background: #dc3545;
+.wagon-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 15px;
+  color: #333;
 }
 
 .seats-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 }
 
 .seat-row {
   display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.row-label {
-  font-weight: bold;
-  font-size: 18px;
-  width: 30px;
-  color: #555;
-}
-
-.seats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  flex: 1;
+  gap: 6px;
+  overflow-x: auto;
 }
 
 .seat {
-  width: 40px;
+  min-width: 40px;
   height: 40px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  background: #e8f0fe;
+  background: white;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 12px;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-.seat:hover {
-  transform: scale(1.05);
-}
-
-.seat.selected {
-  background: #1a73e8;
-  color: white;
-  border-color: #1a73e8;
+  flex-shrink: 0;
 }
 
 .seat.booked {
   background: #dc3545;
   color: white;
-  border-color: #dc3545;
   cursor: not-allowed;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
-.seat.free:hover {
-  background: #1a73e8;
+.seat.selected {
+  background: #0066cc;
   color: white;
 }
