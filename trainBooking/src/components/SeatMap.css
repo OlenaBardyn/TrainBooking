@@ -46,3 +46,19 @@
   background: #0066cc;
   color: white;
 }
+
+.seat-map {
+  background: rgba(255, 255, 255, 0.05); /* Напівпрозорий фон */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 30px;
+  backdrop-filter: blur(5px);
+}
+
+.wagon-title {
+  color: #ffffff;
+  margin-bottom: 10px;
+  font-weight: bold;
+  padding-left: 10px; 
+}

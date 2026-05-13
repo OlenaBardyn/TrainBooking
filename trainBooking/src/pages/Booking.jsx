@@ -91,11 +91,14 @@ function Booking() {
   }
   const totalPrice = totalSelectedCount * seatPrice
 
-
   if (!train) return <div>Потяг не знайдено</div>
 
   return (
     <div className="booking">
+      <button className="back-button" onClick={() => window.history.back()}>
+        ← Назад
+      </button>
+      
       <div className="booking-container">
         <div className="seats-section">
           {wagons.map(wagon => (
