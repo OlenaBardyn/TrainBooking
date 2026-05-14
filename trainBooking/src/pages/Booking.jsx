@@ -23,7 +23,6 @@ function Booking() {
   }, [train])
 
   const handleSeatToggle = (wagon, seat) => {
-    // Перевіряємо, чи місце вже заброньоване іншими
     const seatsInWagon = bookedSeatsMap[wagon] || []
     let isAlreadyBooked = false
     
@@ -36,7 +35,7 @@ function Booking() {
 
     if (isAlreadyBooked) return
 
-    // Логіка вибору/скасування місця
+
     setSelectedSeats(prev => {
       const current = prev[wagon] || []
       
@@ -57,7 +56,6 @@ function Booking() {
         }
         return { ...prev, [wagon]: newSeats }
       } else {
-        // Якщо місця немає — додаємо
         return { ...prev, [wagon]: [...current, seat] }
       }
     })
@@ -95,9 +93,12 @@ function Booking() {
 
   return (
     <div className="booking">
-      <button className="back-button" onClick={() => window.history.back()}>
-        ← Назад
-      </button>
+    <a href="/" className="back-button">← Назад</a>
+
+      <div className="train-info">
+        <span>{train.from} → {train.to}</span>
+        <span>{train.date} | {train.time}</span>
+      </div>
       
       <div className="booking-container">
         <div className="seats-section">
